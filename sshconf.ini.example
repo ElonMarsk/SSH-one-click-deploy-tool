@@ -1,0 +1,29 @@
+# SSH 密钥配置
+KeyType = ed25519        # 可选: rsa, ed25519 (推荐)
+KeyName = my_server_key  # 密钥文件名（不含路径）
+
+# 任务参数
+KeyPath =                # 密钥保存路径（可选，留空则使用脚本运行路径）
+PublicKeyPath =          # 公钥文件完整路径（可选，用于上传公钥任务，留空则使用 KeyPath/KeyName.pub）
+PrivateKeyPath =         # 私钥文件完整路径（可选，用于上传公钥/更新sshd配置时使用；留空则默认使用 KeyPath/KeyName）
+AutoRestartSSH = yes     # 更新配置后自动重启SSH服务；可选: yes, no（默认: yes）
+
+# 服务器配置
+Host = your.server.com   # 服务器地址或IP
+User = root              # 用户名
+Port = 22                # SSH 端口
+
+# SSH 服务器配置 (sshd_config)
+# 以下配置项将更新到服务器的 /etc/ssh/sshd_config 文件
+# 注意：修改后需要重启 sshd 服务才能生效
+PermitRootLogin = yes              # 允许root用户登录；可选: yes, no, prohibit-password, without-password
+PasswordAuthentication = no        # 允许密码登录；可选: yes, no
+PubkeyAuthentication = yes         # 允许公钥登录；可选: yes, no
+AuthorizedKeysFile = .ssh/authorized_keys .ssh/authorized_keys2  # 公钥文件路径；可选: 多个文件路径用空格分隔
+Port = 22                          # SSH 端口（如果与上面的Port不同，此处的值会更新到sshd_config，请与上面保持一致）
+# MaxAuthTries = 6                 # 最大认证尝试次数（可选，注释掉则不修改）
+# ClientAliveInterval = 300        # 客户端保活间隔（秒，可选）
+# ClientAliveCountMax = 2          # 客户端保活最大次数（可选）
+# X11Forwarding = no               # X11转发（可选）
+# PermitEmptyPasswords = no        # 允许空密码（可选）
+
